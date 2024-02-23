@@ -26,18 +26,22 @@
         <div class="flex gap ai-center jc-center">
           <ButtonComp bgcolor="info" @click="newTodo()">Add</ButtonComp>
           <ButtonComp bgcolor="danger" @click="clearInput()">Clear</ButtonComp>
+          <input type="checkbox" id="cb" v-model="searchIn" />
+          <label for="cb">Search</label>
         </div>
       </div>
       <hr />
       <div class="todo-container gap-v">
         <TodoComp
-          v-for="todo in todos"
+          v-for="todo in results"
           :bgcolor="todo.color"
           :key="todo"
           @remove="todos.splice(todos.indexOf(todo), 1)"
           >{{ todo.title }}</TodoComp
         >
       </div>
+      <hr v-if="results.length" />
+      {{ results.length }} Results Found
       <hr />
     </Container>
   </main>
@@ -53,10 +57,15 @@ import TodoComp from "./components/TodoComp.vue";
 import { ref, computed, reactive } from "vue";
 
 let inp_text = ref("");
+let searchIn = ref(false);
 
 let color_s = ref("#fff");
 
 let color_comp = computed(() => color_s);
+
+let results = computed(() =>
+  todos.filter((todo) => !searchIn.value || todo.title.includes(inp_text.value))
+);
 
 let colors = [
   "#fff",
@@ -75,6 +84,7 @@ let colors = [
 function clearInput() {
   inp_text.value = "";
   changeColor("#fff");
+  searchIn.value = false;
 }
 
 function changeColor(c) {

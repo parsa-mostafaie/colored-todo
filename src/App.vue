@@ -37,6 +37,8 @@
           :bgcolor="todo.color"
           :key="todo"
           @remove="todos.splice(todos.indexOf(todo), 1)"
+          @stChange="changeState(todo)"
+          :st="computed(() => todo.state)"
           >{{ todo.title }}</TodoComp
         >
       </div>
@@ -94,9 +96,17 @@ function changeColor(c) {
 function newTodo() {
   let ttl = inp_text.value.trim();
   if (ttl) {
-    todos.push({ title: ttl, color: color_s.value });
+    todos.push({
+      title: ttl,
+      color: color_s.value,
+      state: false,
+    });
     clearInput();
   }
+}
+
+function changeState(td) {
+  td.state = !td.state;
 }
 
 let todos = reactive([]);

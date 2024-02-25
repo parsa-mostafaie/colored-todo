@@ -1,15 +1,30 @@
 <template>
-  <div class="todo" :style="{ backgroundColor: bgc, width: '100%' }">
-    <span><slot></slot></span
+  <div
+    class="todo"
+    @click.self="emit('stChange')"
+    :style="{
+      backgroundColor: bgc,
+      width: '100%',
+      filter: `brightness(${st ? '90' : '100'}%)`,
+    }"
+  >
+    <span
+      :style="{
+        textDecoration: (st && 'line-through') || 'unset',
+      }"
+    >
+      <slot></slot> </span
     ><span class="close" @click="emit('remove')">x</span>
   </div>
 </template>
 <script setup>
 import { defineProps, reactive, defineEmits } from "vue";
 
-let props = defineProps(["bgcolor"]);
+let props = defineProps(["bgcolor", "st"]);
 
-let emit = defineEmits(["remove"]);
+let emit = defineEmits(["remove", "stChange"]);
+
+let st = reactive(props.st);
 
 let bgc = reactive(props.bgcolor);
 </script>

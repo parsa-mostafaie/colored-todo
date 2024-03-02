@@ -36,7 +36,10 @@
           v-for="todo in results"
           :bgcolor="todo.color"
           :key="todo"
-          @remove="todos.splice(todos.indexOf(todo), 1)"
+          @remove="
+            todos.splice(todos.indexOf(todo), 1);
+            resave();
+          "
           @stChange="changeState(todo)"
           :st="computed(() => todo.state)"
           >{{ todo.title }}</TodoComp
@@ -103,13 +106,29 @@ function newTodo() {
     });
     clearInput();
   }
+  resave();
 }
 
 function changeState(td) {
   td.state = !td.state;
+  resave();
 }
 
-let todos = reactive([]);
+let _todos_temp_;
+
+try {
+  _todos_temp_ = JSON.parse(localStorage.getItem("colored_todos")) || [];
+} catch (err) {
+  ("nop");
+}
+
+_todos_temp_ = Array.isArray(_todos_temp_) ? _todos_temp_ : [];
+
+let todos = reactive(_todos_temp_);
+
+function resave() {
+  localStorage.setItem("colored_todos", JSON.stringify(todos));
+}
 </script>
 
 <style>

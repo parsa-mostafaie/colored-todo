@@ -6,7 +6,14 @@ let props = defineProps(["placeholder", "bgcolor"]);
 let placeholder = reactive(props.placeholder);
 let bgc = reactive(props.bgcolor);
 
-const txt_model = defineModel();
+const [txt_model, modifiers] = defineModel({
+  set(value) {
+    if (modifiers.trim) {
+      return value.trim();
+    }
+    return value;
+  },
+});
 </script>
 
 <template>

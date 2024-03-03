@@ -8,7 +8,7 @@
     <Container>
       <div class="mb-1">
         <Input
-          v-model="inp_text"
+          v-model.trim="inp_text"
           placeholder="Type Something Here."
           ref="inp_el"
           :bgcolor="color_comp"

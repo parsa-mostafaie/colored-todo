@@ -181,7 +181,7 @@ body {
   align-items: center;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .auto-col {
     flex-direction: column;
     gap: 5px;

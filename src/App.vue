@@ -36,16 +36,14 @@
           v-for="[index, todo] of todos.entries()"
           :bgcolor="todo.color"
           :key="todo"
-          @remove="
-            todos.splice(todos.indexOf(todo), 1);
-            resave();
-          "
+          @remove="todos.splice(todos.indexOf(todo), 1)"
           @stChange="changeState(todo)"
           @dragstart="
             (event) => event.dataTransfer.setData('drop_target', index)
           "
-          @drop="(event) =>
-              moveTodo(event.dataTransfer.getData('drop_target'), index) || resave()
+          @drop="
+            (event) =>
+              moveTodo(event.dataTransfer.getData('drop_target'), index)
           "
           :st="computed(() => todo.state)"
           >{{ todo.title }}</TodoComp
@@ -65,7 +63,7 @@ import ButtonComp from "./components/ButtonComp.vue";
 import ColorSelect from "./components/ColorSelect.vue";
 import TodoComp from "./components/TodoComp.vue";
 
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, watch } from "vue";
 
 let inp_text = ref("");
 let searchIn = ref(false);
@@ -112,12 +110,10 @@ function newTodo() {
     });
     clearInput();
   }
-  resave();
 }
 
 function changeState(td) {
   td.state = !td.state;
-  resave();
 }
 
 let _todos_temp_;
@@ -132,9 +128,13 @@ _todos_temp_ = Array.isArray(_todos_temp_) ? _todos_temp_ : [];
 
 let todos = reactive(_todos_temp_);
 
-function resave() {
-  localStorage.setItem("colored_todos", JSON.stringify(todos));
-}
+watch(
+  todos,
+  () => {
+    localStorage.setItem("colored_todos", JSON.stringify(todos));
+  },
+  { deep: true }
+);
 
 function moveTodo(from, to) {
   var element = todos[from];
@@ -181,7 +181,7 @@ body {
   align-items: center;
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 900px) {
   .auto-col {
     flex-direction: column;
     gap: 5px;

@@ -33,7 +33,7 @@
       <hr />
       <div class="todo-container gap-v">
         <TodoComp
-          v-for="todo in results"
+          v-for="[index, todo] of todos.entries()"
           :bgcolor="todo.color"
           :key="todo"
           @remove="
@@ -41,6 +41,13 @@
             resave();
           "
           @stChange="changeState(todo)"
+          @dragstart="
+            (event) => event.dataTransfer.setData('drop_target', index)
+          "
+          @drop="
+            (event) =>
+              moveTodo(event.dataTransfer.getData('drop_target'), index)
+          "
           :st="computed(() => todo.state)"
           >{{ todo.title }}</TodoComp
         >
@@ -128,6 +135,12 @@ let todos = reactive(_todos_temp_);
 
 function resave() {
   localStorage.setItem("colored_todos", JSON.stringify(todos));
+}
+
+function moveTodo(from, to) {
+  var element = todos[from];
+  todos.splice(from, 1);
+  todos.splice(to, 0, element);
 }
 </script>
 

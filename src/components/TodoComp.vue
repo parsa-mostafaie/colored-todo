@@ -3,7 +3,6 @@
     class="todo"
     @click.self="emit('stChange')"
     draggable="true"
-    @dragover.prevent
     :style="{
       backgroundColor: bgc,
       width: '100%',

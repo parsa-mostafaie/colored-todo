@@ -44,9 +44,8 @@
           @dragstart="
             (event) => event.dataTransfer.setData('drop_target', index)
           "
-          @drop="
-            (event) =>
-              moveTodo(event.dataTransfer.getData('drop_target'), index)
+          @drop="(event) =>
+              moveTodo(event.dataTransfer.getData('drop_target'), index) || resave()
           "
           :st="computed(() => todo.state)"
           >{{ todo.title }}</TodoComp

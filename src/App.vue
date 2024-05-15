@@ -33,9 +33,9 @@
       <hr />
       <div class="todo-container gap-v">
         <TodoComp
-          v-for="[index, todo] of todos.entries()"
+          v-for="[index, todo] of results.entries()"
           :bgcolor="todo.color"
-          :key="todo"
+          :key="todo.key"
           @remove="todos.splice(todos.indexOf(todo), 1)"
           @stChange="changeState(todo)"
           @dragstart="
@@ -107,6 +107,7 @@ function newTodo() {
       title: ttl,
       color: color_s.value,
       state: false,
+      key: Date.now(),
     });
     clearInput();
   }

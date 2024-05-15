@@ -6,28 +6,41 @@
   </header>
   <main>
     <Container>
-      <div class="mb-1">
-        <Input
-          v-model.trim="inp_text"
-          placeholder="Type Something Here."
-          ref="inp_el"
-          :bgcolor="color_comp"
-        />
-      </div>
-      <div class="flex jc-between auto-col mb-1">
-        <div class="flex ai-center gap jc-center">
-          <ColorSelect
-            :bgcolor="color"
-            v-for="color in colors"
-            @click="changeColor(color)"
-            :key="color"
-          ></ColorSelect>
+      <div
+        :style="{
+          zIndex: 9999,
+          background: '#dddb',
+          padding: '15px 15px 5px 15px',
+          borderRadius: '5px',
+          position: 'sticky',
+          top: '5px',
+        }"
+      >
+        <div class="mb-1">
+          <Input
+            v-model.trim="inp_text"
+            placeholder="Type Something Here."
+            ref="inp_el"
+            :bgcolor="color_comp"
+          />
         </div>
-        <div class="flex gap ai-center jc-center">
-          <ButtonComp bgcolor="info" @click="newTodo()">Add</ButtonComp>
-          <ButtonComp bgcolor="danger" @click="clearInput()">Clear</ButtonComp>
-          <input type="checkbox" id="cb" v-model="searchIn" />
-          <label for="cb">Search</label>
+        <div class="flex jc-between auto-col mb-1">
+          <div class="flex ai-center gap jc-center">
+            <ColorSelect
+              :bgcolor="color"
+              v-for="color in colors"
+              @click="changeColor(color)"
+              :key="color"
+            ></ColorSelect>
+          </div>
+          <div class="flex gap ai-center jc-center">
+            <ButtonComp bgcolor="info" @click="newTodo()">Add</ButtonComp>
+            <ButtonComp bgcolor="danger" @click="clearInput()"
+              >Clear</ButtonComp
+            >
+            <input type="checkbox" id="cb" v-model="searchIn" />
+            <label for="cb">Search</label>
+          </div>
         </div>
       </div>
       <hr />
